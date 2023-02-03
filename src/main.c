@@ -1,11 +1,12 @@
 #include <avr/io.h>
 #include <util/delay.h>
+#include "include/pwm.h"
 
-#define F_CPU 16000000UL
 
 int main(void){
     DDRB |= (1 << DDB5);
-    OCR0A = 191;
+
+    setup_PWM();
 
     while(1){
         PORTB |= 1 << PORTB5;
