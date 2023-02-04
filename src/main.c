@@ -1,6 +1,6 @@
 #include <avr/io.h>
 #include <util/delay.h>
-#include "include/pwm.h"
+#include "../include/pwm.h"
 
 
 int main(void){
