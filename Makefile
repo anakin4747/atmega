@@ -1,9 +1,9 @@
 HEX = bin/main.hex
 BINARY = bin/main.bin
 CC = avr-gcc
-INCLUDE = ./include
+INCLUDE = . include
 CFLAGS = -Os -mmcu=atmega328p -DF_CPU=16000000UL -MD
-SRC = ./src
+SRC = . src
 CFILES = $(foreach D, $(SRC), $(wildcard $(D)/*.c))
 HEADERS = $(foreach D, $(INCLUDE), $(wildcard $(D)/*.h))
 OBJECTS = $(patsubst %.c, %.o, $(CFILES))
