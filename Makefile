@@ -23,6 +23,10 @@ clean:
 	rm $(OBJECTS) $(HEX) $(BINARY) $(DEP)
 
 flash: $(HEX)
-	sudo avrdude -F -V -c arduino -p ATMEGA328P -P /dev/ttyUSB0 -b 115200 -U flash:w:$(HEX):i
+	avrdude -v -C /etc/avrdude.conf -c arduino -p atmega328p -P /dev/ttyUSB0 -b 115200 -U flash:w:$(HEX):i
+
+
+	#avrdude -v -c arduino -p atmega328p -P /dev/ttyUSB0 -b 115200 -U flash:w:$(HEX):i
+
 
 -include $(OBJECTS:.o=.d)
