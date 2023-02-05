@@ -2,7 +2,7 @@ HEX = bin/main.hex
 BINARY = bin/main.bin
 CC = avr-gcc
 INCLUDE = . include
-CFLAGS = -Os -mmcu=atmega328p -DF_CPU=16000000UL -MD -Wall -Wextra
+CFLAGS = -Og -mmcu=atmega328p -DF_CPU=16000000UL -MD -Wall -Wextra
 SRC = . src
 CFILES = $(foreach D, $(SRC), $(wildcard $(D)/*.c))
 HEADERS = $(foreach D, $(INCLUDE), $(wildcard $(D)/*.h))
@@ -19,11 +19,6 @@ $(BINARY): $(OBJECTS)
 
 %.o: %.c 
 	$(CC) $(CFLAGS) -c -o $@ $<
-
-assemble: $(ASM) # Not working
-
-%.s: %.c # Not working
-	$(CC) -S -o $@ $< # Not working
 
 clean:
 	rm $(OBJECTS) $(HEX) $(BINARY) $(DEP)

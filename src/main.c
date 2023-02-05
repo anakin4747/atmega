@@ -11,10 +11,10 @@ int main(void){
     while(1){
         PORTB |= 1 << PORTB5;
 
-        _delay_ms(3000);
+        _delay_ms(300);
 
         PORTB &= ~(1 << PORTB5);
 
-        _delay_ms(3000);
+        _delay_ms(300);
     }
 }
