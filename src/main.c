@@ -1,20 +1,23 @@
 #include <avr/io.h>
-#include "../include/pwm.h"
+#include "../include/adc.h"
+#include "../include/led.h"
 #include <util/delay.h>
 
 
 int main(void){
-    DDRB |= (1 << DDB5);
 
-    setup_PWM();
+    unsigned int last_reading = 0, reading = 0;
+    led_set_output();
 
     while(1){
-        PORTB |= 1 << PORTB5;
 
-        _delay_ms(3000);
+        led_update(reading, last_reading);
+        last_reading = reading++;
 
-        PORTB &= ~(1 << PORTB5);
+        _delay_ms(100);
 
-        _delay_ms(3000);
+        if(reading > 4){
+            reading = 0;
+        }
     }
 }
