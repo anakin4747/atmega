@@ -20,15 +20,15 @@ $(BINARY): $(OBJECTS)
 %.o: %.c 
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-assemble: $(ASM)
+assemble: $(ASM) # Not working
 
-%.s: %.c
-	$(CC) -S -o $@ $<
+%.s: %.c # Not working
+	$(CC) -S -o $@ $< # Not working
 
 clean:
 	rm $(OBJECTS) $(HEX) $(BINARY) $(DEP)
 
 flash: $(HEX)
-	avrdude -v -C /etc/avrdude.conf -c arduino -p atmega328p -P /dev/ttyUSB0 -b 115200 -U flash:w:$(HEX):i
+	avrdude -v -C /etc/avrdude.conf -c arduino -p atmega328p -P /dev/ttyUSB0 -U flash:w:$(HEX):i
 
 -include $(OBJECTS:.o=.d)
