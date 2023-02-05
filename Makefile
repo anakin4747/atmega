@@ -1,28 +1,36 @@
-HEX = bin/main.hex
-BINARY = bin/main.bin
 CC = avr-gcc
-INCLUDE = include
-CFLAGS = -Og -g -mmcu=atmega328p -DF_CPU=16000000UL -MD -Wall -Wextra
+HEX = bin/main.hex
+BINARY = bin/main.elf
+CFLAGS = -g -Os -Wall -mcall-prologues -mmcu=atmega328p -MD
 SRC = src
 CFILES = $(foreach D, $(SRC), $(wildcard $(D)/*.c))
-HEADERS = $(foreach D, $(INCLUDE), $(wildcard $(D)/*.h))
 OBJECTS = $(patsubst %.c, %.o, $(CFILES))
 DEP = $(patsubst %.c, %.d, $(CFILES))
+ASM = $(patsubst %.c, %.S, $(CFILES))
 
+all: $(HEX)
 
-$(HEX): $(BINARY)
-	avr-objcopy -O ihex -j .text -j .data $< $@
+.c.o:
+	$(CC) $(CFLAGS) -c $< -o $@
 
-$(BINARY): $(OBJECTS)
-	$(CC) $(CFLAGS) -o $@ $^
+.S.o:
+	$(CC) $(CFLAGS) -x assembler-with-cpp -c $< -o $@
 
-%.o: %.c 
-	$(CC) $(CFLAGS) -c -o $@ $<
+.c.s:
+	$(CC) $(CFLAGS) -S $< -o $@
+
+$(HEX): $(OBJECTS)
+	$(CC) $(CFLAGS) $(OBJECTS) -o $(BINARY)
+	avr-objcopy -j .text -j .data -O ihex $(BINARY) $(HEX)
+	avr-size $(HEX)
 
 clean:
-	rm $(OBJECTS) $(HEX) $(BINARY) $(DEP)
+	rm -f $(OBJECTS) $(ASM) $(BINARY) $(HEX) $(DEP)
 
 flash: $(HEX)
-	avrdude -v -c arduino -p atmega328p -P /dev/ttyUSB0 -U flash:w:$(HEX)
+	avrdude -p atmega328p -c arduino -P /dev/ttyUSB0 -U flash:w:$(HEX)
+
+fuse:
+	avrdude -p atmega328p -c avrisp2 -P /dev/ttyUSB0 -U lfuse:w:0xFF:m -U hfuse:w:0xDA:m -U efuse:w:0x05:m
 
 -include $(OBJECTS:.o=.d)
