@@ -5,7 +5,6 @@
 #include "../include/adc.h"
 
 
-
 #define LED_PIN PB5
 
 volatile uint16_t adc_result;
