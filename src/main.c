@@ -1,23 +1,18 @@
 #include <avr/io.h>
-#include "../include/adc.h"
-#include "../include/led.h"
+
+#define F_CPU 16000000UL
 #include <util/delay.h>
 
 
 int main(void){
 
-    unsigned int last_reading = 0, reading = 0;
-    led_set_output();
+    DDRB |= (1 << PB5);
+
 
     while(1){
-
-        led_update(reading, last_reading);
-        last_reading = reading++;
-
+        PORTB |= (1 << PB5);
         _delay_ms(100);
-
-        if(reading > 4){
-            reading = 0;
-        }
+        PORTB &= ~(1 << PB5);
+        _delay_ms(100);
     }
 }
