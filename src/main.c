@@ -1,20 +1,45 @@
+#define F_CPU 16000000UL
 #include <avr/io.h>
-#include "../include/pwm.h"
 #include <util/delay.h>
+#include <avr/interrupt.h>
+#include "../include/adc.h"
 
+
+#define LED_PIN PB5
+
+volatile uint16_t adc_result;
 
 int main(void){
-    DDRB |= (1 << DDB5);
+    // Initialize the ADC
+    adc_init();
 
-    setup_PWM();
+    // Set the LED pin as an output
+    DDRB |= (1 << LED_PIN);
+    DDRC &= ~(1 << DDC0);
 
-    while(1){
-        PORTB |= 1 << PORTB5;
+    // Enable global interrupts
+    sei();
 
-        _delay_ms(3000);
+    while (1) {
+        // Wait for the ADC conversion to complete
+        while (!(ADCSRA & (1 << ADIF)));
 
-        PORTB &= ~(1 << PORTB5);
+        // Read the ADC result
+        uint16_t adc_result = ADC;
+        uint16_t Vref = 5;
 
-        _delay_ms(3000);
+        uint16_t voltage = (adc_result * Vref) / 1024;
+
+        // Turn on the LED if the ADC result is above a threshold
+        if (voltage > 1) {
+            PORTB |= (1 << LED_PIN);
+        } else {
+            PORTB &= ~(1 << LED_PIN);
+        }
+
+        // Clear the ADC interrupt flag
+        ADCSRA |= (1 << ADIF);
     }
+
+    return 0;
 }
