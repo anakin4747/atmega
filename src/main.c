@@ -5,8 +5,6 @@
 #include "../include/adc.h"
 
 
-#define LED_PIN PB5
-
 volatile uint16_t adc_result;
 
 int main(void){
@@ -14,8 +12,7 @@ int main(void){
     adc_init();
 
     // Set the LED pin as an output
-    DDRB |= (1 << LED_PIN);
-    DDRC &= ~(1 << DDC0);
+    DDRB |= (1 << PB5);
 
     // Enable global interrupts
     sei();
@@ -24,17 +21,15 @@ int main(void){
         // Wait for the ADC conversion to complete
         while (!(ADCSRA & (1 << ADIF)));
 
-        // Read the ADC result
-        uint16_t adc_result = ADC;
         uint16_t Vref = 5;
 
         uint16_t voltage = (adc_result * Vref) / 1024;
 
         // Turn on the LED if the ADC result is above a threshold
         if (voltage > 1) {
-            PORTB |= (1 << LED_PIN);
+            PORTB |= (1 << PB5);
         } else {
-            PORTB &= ~(1 << LED_PIN);
+            PORTB &= ~(1 << PB5);
         }
 
         // Clear the ADC interrupt flag
