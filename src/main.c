@@ -3,7 +3,7 @@
 #include <util/delay.h>
 #include <avr/interrupt.h>
 #include "../include/timer.h"
-
+#include "../include/adc.h"
 
 
 int main(void){
@@ -11,10 +11,10 @@ int main(void){
     DDRB |= (1 << PB5);
     // Set port B5 as output
 
-    setupTimer0();
+    setupADC();
+    setupTimer1();
 
     while (1) {
     }
-
     return 0;
 }

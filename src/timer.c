@@ -1,31 +1,40 @@
 #include "../include/timer.h"
+#include "../include/adc.h"
 #include <avr/interrupt.h>
 
-// Timer0 Compare Interrupt Service Routine
-ISR(TIMER0_COMPA_vect){
+
+// Timer1 Compare Interrupt Service Routine
+ISR(TIMER1_COMPA_vect){
     // Code to be executed every 20ms
     PORTB ^= (1 << PB5);
+    adc_read();
 }
 
-void setupTimer0(void){
+void setupTimer1(void){
+    // Set to CTC mode
+    TCCR1A = 0;
+    TCCR1B |= (1 << WGM12);
+
     // Set prescaler to 1024
-    TCCR0B |= (1 << CS02) | (1 << CS00);
+    TCCR1B |= (1 << CS12) | (1 << CS10);
 
     // Calculate compare value for 20ms
-    OCR0A = 156;
-
-    /*
-    // Settings for every 500ms
-    // Set prescaler to 8
-    TCCR0B |= (1 << CS01);
-
-    // Calculate compare value for 500ms
-    OCR0A = 199;
-    */
+    OCR1A = 3905;
 
     // Enable compare match interrupt
-    TIMSK0 |= (1 << OCIE0A);
+    TIMSK1 |= (1 << OCIE1A);
 
     // Enable global interrupts
     sei();
 }
+
+/*
+ * f_OCnx = f_clk_IO / (N * (1 + OCRnx))
+ *
+ * N = 1 || 8 || 64 || 256 || 1024
+ *
+ * OCRnx = (f_clk_IO * T_s / N) - 1
+ * OCRnx = (16M * 250ms / 1024) - 1
+ * OCRnx = 3905.25
+ *
+ */
