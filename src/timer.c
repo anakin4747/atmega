@@ -1,5 +1,6 @@
 #include "../include/timer.h"
 #include "../include/adc.h"
+#include "../include/uart.h"
 #include <avr/interrupt.h>
 
 
@@ -8,6 +9,7 @@ ISR(TIMER1_COMPA_vect){
     // Code to be executed every 20ms
     PORTB ^= (1 << PB5);
     adc_read();
+    sendOverUART();
 }
 
 void setupTimer1(void){
@@ -32,6 +34,10 @@ void setupTimer1(void){
  * f_OCnx = f_clk_IO / (N * (1 + OCRnx))
  *
  * N = 1 || 8 || 64 || 256 || 1024
+ *
+ * OCRnx = (f_clk_IO * T_s / N) - 1
+ * OCRnx = (16M * 20ms / 1024) - 1
+ * OCRnx = 311.5
  *
  * OCRnx = (f_clk_IO * T_s / N) - 1
  * OCRnx = (16M * 250ms / 1024) - 1

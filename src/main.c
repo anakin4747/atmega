@@ -4,6 +4,7 @@
 #include <avr/interrupt.h>
 #include "../include/timer.h"
 #include "../include/adc.h"
+#include "../include/uart.h"
 
 
 int main(void){
@@ -12,7 +13,9 @@ int main(void){
     // Set port B5 as output
 
     setupADC();
+    setupUART();
     setupTimer1();
+
 
     while (1) {
     }
