@@ -1,20 +1,23 @@
+#define F_CPU 16000000UL
 #include <avr/io.h>
-#include "../include/pwm.h"
 #include <util/delay.h>
+#include <avr/interrupt.h>
+#include "../include/timer.h"
+#include "../include/adc.h"
+#include "../include/uart.h"
 
 
 int main(void){
-    DDRB |= (1 << DDB5);
 
-    setup_PWM();
+    DDRB |= (1 << PB5);
+    // Set port B5 as output
 
-    while(1){
-        PORTB |= 1 << PORTB5;
+    setupADC();
+    setupUART();
+    setupTimer1();
 
-        _delay_ms(3000);
 
-        PORTB &= ~(1 << PORTB5);
-
-        _delay_ms(3000);
+    while (1) {
     }
+    return 0;
 }
