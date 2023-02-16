@@ -22,7 +22,7 @@ void setupTimer1(void){
     TCCR1B |= (1 << CS12) | (1 << CS10);
 
     // Calculate compare value for 20ms
-    OCR1A = 311;
+    OCR1A = 3905;
 
     // Enable compare match interrupt
     TIMSK1 |= (1 << OCIE1A);

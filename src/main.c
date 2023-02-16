@@ -5,6 +5,7 @@
 #include "../include/timer.h"
 #include "../include/adc.h"
 #include "../include/uart.h"
+#include "../include/pwm.h"
 
 
 int main(void){
@@ -13,6 +14,7 @@ int main(void){
     // Set port B5 as output
 
     setupADC();
+    setupPWM();
     setupUART();
     setupTimer1();
 
