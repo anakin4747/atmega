@@ -1,5 +1,7 @@
 #include "../include/uart.h"
 #include <avr/io.h>
+#include <stdlib.h>
+#include <string.h>
 
 void setupUART(void){
     // Setting Baud Rate
@@ -13,11 +15,18 @@ void setupUART(void){
 
 }
 
-void sendOverUART(void){
-    unsigned char data[] = "Hello from ATmega328p\n\r";
+void sendOverUART(uint16_t adcRead){
+    char data[4 + 2 + 1];
+    // 4 chars in a long, plus \n\r (2), plus null
+
+    ultoa(adcRead, data, 10);
+    // Convert to string in base 10
+
+    strcat(data, "\n\r");
+    // Newline and return
+
     int i = 0;
 
-    i = 0;
     while(data[i] != 0){
         while (!( UCSR0A & (1<<UDRE0)));
         UDR0 = data[i];
