@@ -9,6 +9,8 @@ ISR(TIMER1_COMPA_vect){
     // Code to be executed every 20ms
     PORTB ^= (1 << PB5);
     sendOverUART(adc_read());
+    sendOverUART(adc_read());
+    sendOverUART(adc_read());
 }
 
 void setupTimer1(void){
@@ -20,7 +22,7 @@ void setupTimer1(void){
     TCCR1B |= (1 << CS12) | (1 << CS10);
 
     // Calculate compare value for 20ms
-    OCR1A = 3905;
+    OCR1A = 311;
 
     // Enable compare match interrupt
     TIMSK1 |= (1 << OCIE1A);
