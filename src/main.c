@@ -1,7 +1,5 @@
 #define F_CPU 16000000UL
 #include <avr/io.h>
-#include <util/delay.h>
-#include <avr/interrupt.h>
 #include "../include/timer.h"
 #include "../include/adc.h"
 #include "../include/uart.h"
@@ -20,6 +18,15 @@ int main(void){
 
 
     while (1) {
+        while (!flag);
+
+        PORTB ^= (1 << PB5);
+        sendOverUART(adc_read());
+        sendOverUART(adc_read());
+        sendOverUART(adc_read());
+
+        flag = 0;
     }
+
     return 0;
 }
