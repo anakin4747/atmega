@@ -30,6 +30,9 @@ clean:
 flash: $(HEX)
 	avrdude -p atmega328p -c arduino -P /dev/ttyUSB0 -U flash:w:$(HEX)
 
+flash-ICSP: $(HEX)
+	avrdude -p atmega328p -c stk500v1 -P /dev/ttyUSB0 -b 19200 -U flash:w:$(HEX)
+
 fuse:
 	avrdude -p atmega328p -c avrisp2 -P /dev/ttyUSB0 -U lfuse:w:0xFF:m -U hfuse:w:0xDA:m -U efuse:w:0x05:m
 
