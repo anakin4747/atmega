@@ -6,18 +6,16 @@ project.
 
 ## Atmega328P
 
-I have attempted several mini programs with the Atmega328P since I have
-a couple arduinos laying around. 
+This is the current progress of my Capstone Project.
 
-But I can never get past what feel like small hurdles.
+The goal of my capstone is to add a solar array to the wings of a fixed wing
+drone to extend flight time. This code is for the microcontroller that will
+control the Max Power Point Tracker (MPPT).
 
-I want my project to have a good foundation so I am starting the project with
-a build system with file structure. But as soon as separate the project into
-several files, the program no longer works.
+Currently this code uses a timed interrupt to trigger every 250ms to read
+3 analog inputs and output a pulse train that would drive the mosfet in the
+boost converter of the MPPT.
 
-I stripped the project down to the blink example and tried expanding it to
-include PWM of the built-in LED. But as soon as the code is split between .c
-files it acts up. The built-in LED just blinks 3 times over and over. I believe
-the triple blink is caused by the boot loader but I am confused as to what
-exactly is happening.
-
+I have the barebones of the project laid out. The next steps for the project
+involve implementing the MPPT P&O algorithm and incorporating a control system
+with a PI controller.
