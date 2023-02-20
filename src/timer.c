@@ -1,6 +1,7 @@
 #include "../include/timer.h"
 #include "../include/adc.h"
 #include "../include/uart.h"
+#include "../include/mppt.h"
 #include <avr/interrupt.h>
 
 
@@ -8,9 +9,11 @@
 ISR(TIMER1_COMPA_vect){
     // Code to be executed every 20ms
     PORTB ^= (1 << PB5);
-    sendOverUART(adc_read());
-    sendOverUART(adc_read());
-    sendOverUART(adc_read());
+
+    adc_read();
+    adc_read();
+    adc_read();
+    mpptAlgorithm();
 }
 
 void setupTimer1(void){
