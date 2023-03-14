@@ -7,14 +7,9 @@
 #define CH1 1
 #define CH2 2
 
-extern unsigned char adcIndex;
-extern uint16_t rawBatteryReading;
-extern uint16_t rawVoltReading;
-extern uint16_t rawCurrReading;
 
 void setupADC(void);
-void rotateADC(void);
-void saveResult(uint16_t result);
-uint32_t adc_read(void);
+uint32_t adc_conversion(void);
+uint32_t adc_read(uint8_t channel);
 
 #endif // __ADC_H__

@@ -1,10 +1,6 @@
 #include "../include/adc.h"
 #include <avr/io.h>
 
-unsigned char adcIndex;
-uint16_t rawBatteryReading;
-uint16_t rawVoltReading;
-uint16_t rawCurrReading;
 
 void setupADC(void){
     // Select ADC Prescalar to 128
@@ -20,63 +16,12 @@ void setupADC(void){
     ADMUX |= CH0;
     // Select fisrt channel
 
-    adcIndex = CH0;
-    // Set index to first channel at setup
-    
     ADCSRA |= (1 << ADEN);
     // Enable ADC
 }
 
-void rotateADC(void){
-    switch(adcIndex){
-        case CH0:
-            ADMUX = ADMUX & 0xF0;
-            // Clear MUX0-MUX3 
-
-            ADMUX |= CH0;
-            // Set ADC to channel 0
-
-            break;
-        case CH1:
-            ADMUX = ADMUX & 0xF0;
-            ADMUX |= CH1;
-            break;
-        case CH2:
-            ADMUX = ADMUX & 0xF0;
-            ADMUX |= CH2;
-            break;
-        default:
-            ADMUX = ADMUX & 0xF0;
-            ADMUX |= CH0;
-            break;
-    }
-}
-
-void saveResult(uint16_t result){
-    switch(adcIndex){
-        case CH0:
-            rawBatteryReading = result;
-            adcIndex = CH1;
-            // Set the index to the next channel
-            break;
-        case CH1:
-            rawVoltReading = result;
-            adcIndex = CH2;
-            break;
-        case CH2:
-            rawCurrReading = result;
-            adcIndex = CH0;
-            break;
-        default:
-            adcIndex = CH1;
-            break;
-    }
-}
-
-uint32_t adc_read(void){
+uint32_t adc_conversion(void){
     uint32_t result;
-
-    rotateADC();
 
     ADCSRA |= (1 << ADSC);
     // Start adc conversion
@@ -85,13 +30,37 @@ uint32_t adc_read(void){
     // Wait for conversion to finish
 
     result = ADC;
-    saveResult(result);
     // Save result
 
     ADCSRA |= (1 << ADIF);
     // Clear ADIF for next conversion
-    
-    // return (result * 2 * 5 * 100 / 1023);
-    // return (result * 4 * 5 * 100 / 1023);
-    return ((result * 25) - 12788) * 100 / 1023;
+
+    return result;
+}
+
+uint32_t adc_read(uint8_t channel){
+    // Accepts the channel to perform the read of and handles conversions
+    // appropriately
+
+    switch(channel){
+        case CH0:
+            ADMUX = ADMUX & 0xF0; // Clear MUX0-MUX3 
+            ADMUX |= CH0; // Set ADC to channel 0
+            return (adc_conversion() * 2 * 5 * 100 / 1023);
+            break;
+        case CH1:
+            ADMUX = ADMUX & 0xF0;
+            ADMUX |= CH1;
+            return (adc_conversion() * 4 * 5 * 100 / 1023);
+            break;
+        case CH2:
+            ADMUX = ADMUX & 0xF0;
+            ADMUX |= CH2;
+            return ((adc_conversion() * 25) - 12788) * 100 / 1023;
+            break;
+        default:
+            return -1;
+            break;
+    }
+
 }

@@ -8,9 +8,9 @@
 ISR(TIMER1_COMPA_vect){
     // Code to be executed every 20ms
     PORTB ^= (1 << PB5);
-    sendOverUART(adc_read());
-    sendOverUART(adc_read());
-    sendOverUART(adc_read());
+    sendOverUART(adc_read(CH0));
+    sendOverUART(adc_read(CH1));
+    sendOverUART(adc_read(CH2));
 }
 
 void setupTimer1(void){
