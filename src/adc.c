@@ -73,8 +73,8 @@ void saveResult(uint16_t result){
     }
 }
 
-uint16_t adc_read(void){
-    uint16_t result;
+uint32_t adc_read(void){
+    uint32_t result;
 
     rotateADC();
 
@@ -91,5 +91,5 @@ uint16_t adc_read(void){
     ADCSRA |= (1 << ADIF);
     // Clear ADIF for next conversion
     
-    return result;
+    return (result * 4 * 5 * 100 / 1023);
 }

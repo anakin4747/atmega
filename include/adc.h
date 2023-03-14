@@ -15,6 +15,6 @@ extern uint16_t rawCurrReading;
 void setupADC(void);
 void rotateADC(void);
 void saveResult(uint16_t result);
-uint16_t adc_read(void);
+uint32_t adc_read(void);
 
 #endif // __ADC_H__
