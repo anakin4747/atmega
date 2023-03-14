@@ -91,5 +91,7 @@ uint32_t adc_read(void){
     ADCSRA |= (1 << ADIF);
     // Clear ADIF for next conversion
     
-    return (result * 4 * 5 * 100 / 1023);
+    // return (result * 2 * 5 * 100 / 1023);
+    // return (result * 4 * 5 * 100 / 1023);
+    return ((result * 25) - 12788) * 100 / 1023;
 }

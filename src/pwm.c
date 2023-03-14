@@ -5,7 +5,8 @@ void setupPWM(void){
     DDRD |= (1 << PD6);
     // Set PB6 to output (OC0A)
     
-    OCR0A = 127;
+    OCR0A = 0;
+    //OCR0A = 127;
     // Set a duty cycle of 0% in output control register 0A
 
     TCCR0A |= (1 << COM0A1);
