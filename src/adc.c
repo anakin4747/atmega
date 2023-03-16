@@ -51,12 +51,12 @@ uint32_t adc_read(uint8_t channel){
         case CH1:
             ADMUX = ADMUX & 0xF0;
             ADMUX |= CH1;
-            return (adc_conversion() * 4 * 5 * 100 / 1023);
+            return ((adc_conversion() * 25) - 12788) * 100 / 1023;
             break;
         case CH2:
             ADMUX = ADMUX & 0xF0;
             ADMUX |= CH2;
-            return ((adc_conversion() * 25) - 12788) * 100 / 1023;
+            return (adc_conversion() * 4 * 5 * 100 / 1023);
             break;
         default:
             return -1;
