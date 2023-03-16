@@ -7,7 +7,7 @@
 
 void setupUART(void);
 
-void sendOverUART(uint16_t adcRead);
+void sendOverUART(const char *message, uint16_t adcRead, uint8_t channel);
 
 
 #endif //  __UART_H__

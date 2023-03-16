@@ -1,6 +1,8 @@
 #include "../include/uart.h"
+#include "../include/adc.h"
 #include <avr/io.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 
 void setupUART(void){
@@ -15,20 +17,25 @@ void setupUART(void){
 
 }
 
-void sendOverUART(uint16_t adcRead){
-    char data[4 + 2 + 1];
-    // 4 chars in a long, plus \n\r (2), plus null
+void sendOverUART(const char *message, uint16_t adcRead, uint8_t channel){
+    char data[255];
 
-    ultoa(adcRead, data, 10);
-    // Convert to string in base 10
-
-    strcat(data, "\n\r");
-    // Newline and return
+    switch(channel){
+        case CH0:
+        case CH1:
+            sprintf(data, "%10s %d.%-4d Volts\n\r\0", message, adcRead / 100, adcRead % 100);
+            break;
+        case CH2:
+            sprintf(data, "%10s %d.%-4d Amps\n\r\0", message, adcRead / 100, adcRead % 100); // To Do, add conversion to mAmps 
+            break;
+        default:
+            sprintf(data, "\033[2J\033[H");
+            break;
+    }
 
     int i = 0;
-
     while(data[i] != 0){
-        while (!( UCSR0A & (1<<UDRE0)));
+        while (!(UCSR0A & (1 << UDRE0)));
         UDR0 = data[i];
         i++;          
     }

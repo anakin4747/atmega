@@ -62,5 +62,4 @@ uint32_t adc_read(uint8_t channel){
             return -1;
             break;
     }
-
 }
