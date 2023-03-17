@@ -1,13 +1,12 @@
 #define F_CPU 16000000UL
 #include <avr/io.h>
-#include <util/delay.h>
 #include <avr/interrupt.h>
-#include "../include/timer.h"
 #include "../include/adc.h"
-#include "../include/uart.h"
+#include "../include/mppt.h"
 #include "../include/pwm.h"
+#include "../include/timer.h"
+#include "../include/uart.h"
 
-int dc = 0;
 
 int main(void){
 
@@ -16,21 +15,23 @@ int main(void){
     setupUART();
     setupTimer1();
 
+    int inputVoltage;
+    int inputCurrent;
+    int battVoltage;
+
     while(1){
         while(!timerInterrupt){
 
-            sendOverUART("Channel 0", adc_read(CH0), CH0);
-            sendOverUART("Channel 1", adc_read(CH1), CH1);
-            sendOverUART("Channel 2", adc_read(CH2), CH2);
+            sendOverUART("Channel 0", inputVoltage = adc_read(CH0), CH0);
+            sendOverUART("Channel 1", inputCurrent = adc_read(CH1), CH1);
+            sendOverUART("Channel 2", battVoltage = adc_read(CH2), CH2);
             // Read all ADCs and print to UART
 
-            if(dc > 100){
-                dc = 0;
-            }
-            updatePWM(dc);
-            dc++;
+            mppt(inputVoltage, inputCurrent, battVoltage);
+            
 
             timerInterrupt = 0;
+
         }
     }
     return 0;

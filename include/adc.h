@@ -7,6 +7,8 @@
 #define CH1 1
 #define CH2 2
 
+#define FLOATFACTOR 100
+
 
 void setupADC(void);
 uint32_t adc_conversion(void);

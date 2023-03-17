@@ -2,6 +2,8 @@
 #include "../include/pwm.h"
 #include "../include/uart.h"
 
+uint8_t duty;
+
 void setupPWM(void){
     DDRD |= (1 << PD6);
     // Set PB6 to output (OC0A)
