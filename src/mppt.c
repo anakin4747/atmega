@@ -1,6 +1,15 @@
 #include "../include/mppt.h"
 #include "../include/pwm.h"
 
+/*
+ * A new piecewise adaptive step MPPT algorithm for PV systems
+ * Y. Xue, S. Sun, J. Fei and H. Wu, "A new piecewise adaptive step MPPT algorithm for PV systems,"
+ * 2017 12th IEEE Conference on Industrial Electronics and Applications (ICIEA), Siem Reap, Cambodia, 
+ * 2017, pp. 1652-1656, doi: 10.1109/ICIEA.2017.8283104.
+ *
+ * https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8283104
+ */
+
 void mppt(uint32_t inputVoltage, uint32_t inputCurrent, uint32_t battVoltage){
 
     if(battVoltage > CHARGED_BATT_VOLTAGE){
@@ -23,6 +32,7 @@ void mppt(uint32_t inputVoltage, uint32_t inputCurrent, uint32_t battVoltage){
     lastPower = lastVoltage = lastCurrent = 0;
 
 
+    // What about the case when inputPower == lastPower???
     if(inputPower > lastPower){
         if(inputVoltage > lastVoltage){
             if(inputCurrent > lastCurrent){
@@ -60,4 +70,5 @@ void mppt(uint32_t inputVoltage, uint32_t inputCurrent, uint32_t battVoltage){
     lastPower = inputPower;
     lastVoltage = inputVoltage;
     lastCurrent = inputCurrent;
+    // Save results
 }
