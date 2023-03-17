@@ -3,15 +3,12 @@
 #include "../include/uart.h"
 #include <avr/interrupt.h>
 
+int timerInterrupt = 0;
 
 // Timer1 Compare Interrupt Service Routine
 ISR(TIMER1_COMPA_vect){
-    // Code to be executed every 20ms
-    PORTB ^= (1 << PB5);
+    timerInterrupt = 1;
 
-    sendOverUART("Channel 0", adc_read(CH0), CH0);
-    sendOverUART("Channel 1", adc_read(CH1), CH1);
-    sendOverUART("Channel 2", adc_read(CH2), CH2);
 }
 
 void setupTimer1(void){

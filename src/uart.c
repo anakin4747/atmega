@@ -29,6 +29,7 @@ void sendOverUART(const char *message, uint16_t adcRead, uint8_t channel){
             sprintf(data, "%10s %d.%-4d Amps\n\r\0", message, adcRead / 100, adcRead % 100); // To Do, add conversion to mAmps 
             break;
         default:
+            sprintf(data, "%s\n", message);
             break;
     }
 

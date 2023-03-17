@@ -7,19 +7,31 @@
 #include "../include/uart.h"
 #include "../include/pwm.h"
 
+int dc = 0;
 
 int main(void){
-
-    DDRB |= (1 << PB5);
-    // Set port B5 as output
 
     setupADC();
     setupPWM();
     setupUART();
     setupTimer1();
 
+    while(1){
+        while(!timerInterrupt){
 
-    while (1) {
+            sendOverUART("Channel 0", adc_read(CH0), CH0);
+            sendOverUART("Channel 1", adc_read(CH1), CH1);
+            sendOverUART("Channel 2", adc_read(CH2), CH2);
+            // Read all ADCs and print to UART
+
+            if(dc > 100){
+                dc = 0;
+            }
+            updatePWM(dc);
+            dc++;
+
+            timerInterrupt = 0;
+        }
     }
     return 0;
 }

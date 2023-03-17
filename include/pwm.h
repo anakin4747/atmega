@@ -6,5 +6,6 @@
 #endif // F_CPU
 
 void setupPWM(void);
+void updatePWM(uint8_t dutyCycle);
 
 #endif // __PWM_HEADER__
