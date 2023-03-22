@@ -40,7 +40,7 @@ flash-ICSP: $(HEX)
 	make clean
 
 fuse:
-	avrdude -p atmega328p -c avrisp2 -P /dev/ttyUSB0 -U lfuse:w:0xFF:m -U hfuse:w:0xDA:m -U efuse:w:0x05:m
+	avrdude -p atmega328p -c arduino -P /dev/ttyUSB0 -U lock:r:-:h -U lfuse:r:-:h -U hfuse:r:-:h -U efuse:r:-:h
 
 -include $(OBJECTS:.o=.d)
 
