@@ -31,7 +31,7 @@ flash: $(HEX)
 	avrdude -p atmega328p -c arduino -P /dev/ttyUSB0 -U flash:w:$(HEX)
 	make clean
 
-flash-ArduinoISP: $(HEX)
+flash-ArduinoISP:
 	avrdude -p atmega328p -c arduino -P /dev/ttyUSB0 -U flash:w:.arduinoISP.hex
 	make clean
 
