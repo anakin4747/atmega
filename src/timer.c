@@ -3,12 +3,20 @@
 #include "../include/uart.h"
 #include <avr/interrupt.h>
 
-int timerInterrupt = 0;
+static char timerInterrupt = 0;
 
 // Timer1 Compare Interrupt Service Routine
 ISR(TIMER1_COMPA_vect){
     timerInterrupt = 1;
+}
 
+int interruptOccured(void){
+    if(timerInterrupt){
+        timerInterrupt = 0;
+        return 1;
+    } else {
+        return 0;
+    }
 }
 
 void setupTimer1(void){

@@ -20,7 +20,7 @@ int main(void){
     setupTimer1();
 
     while(1){
-        while(!timerInterrupt){
+        while(interruptOccured()){
 
             sendOverUART("Channel 0", adc_read(CH0), CH0);
             sendOverUART("Channel 1", adc_read(CH1), CH1);
@@ -34,8 +34,6 @@ int main(void){
             }
             updatePWM(dc);
             dc++;
-
-            timerInterrupt = 0;
         }
     }
     return 0;
