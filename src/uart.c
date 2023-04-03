@@ -22,10 +22,10 @@ void sendOverUART(const char *message, uint16_t adcRead, uint8_t channel){
 
     switch(channel){
         case CH0:
-        case CH1:
+        case CH2:
             sprintf(data, "%10s %d.%-4d Volts\n\r", message, adcRead / 100, adcRead % 100);
             break;
-        case CH2:
+        case CH1:
             sprintf(data, "%10s %d.%-4d Amps\n\r", message, adcRead / 100, adcRead % 100); // To Do, add conversion to mAmps 
             break;
         default:

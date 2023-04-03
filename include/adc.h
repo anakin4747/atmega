@@ -9,7 +9,7 @@
 
 
 void setupADC(void);
-uint32_t adc_conversion(void);
+int32_t adc_conversion(void);
 uint32_t adc_read(uint8_t channel);
 
 #endif // __ADC_H__

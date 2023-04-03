@@ -20,8 +20,8 @@ void setupADC(void){
     // Enable ADC
 }
 
-uint32_t adc_conversion(void){
-    uint32_t result;
+int32_t adc_conversion(void){
+    int32_t result;
 
     ADCSRA |= (1 << ADSC);
     // Start adc conversion
@@ -41,6 +41,7 @@ uint32_t adc_conversion(void){
 uint32_t adc_read(uint8_t channel){
     // Accepts the channel to perform the read of and handles conversions
     // appropriately
+    int32_t currentReading;
 
     switch(channel){
         case CH0:
@@ -51,7 +52,13 @@ uint32_t adc_read(uint8_t channel){
         case CH1:
             ADMUX = ADMUX & 0xF0;
             ADMUX |= CH1;
-            return ((adc_conversion() * 25) - 12788) * 100 / 1023;
+
+            currentReading = ((adc_conversion() * 2500) - 1278750) / 1023;
+            if(currentReading < 0){
+                return 0;
+            } else {
+                return currentReading;
+            }
             break;
         case CH2:
             ADMUX = ADMUX & 0xF0;
