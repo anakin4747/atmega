@@ -6,7 +6,7 @@
 static char timerInterrupt = 0;
 
 // Timer1 Compare Interrupt Service Routine
-ISR(TIMER1_COMPA_vect){
+ISR(TIMER0_COMPA_vect){
     timerInterrupt = 1;
 }
 
@@ -20,21 +20,21 @@ int interruptOccured(void){
 }
 
 void setupTimer1(void){
+
     // Set to CTC mode
-    TCCR1A = 0;
-    TCCR1B |= (1 << WGM12);
-
-    // Set prescaler to 1024
-    TCCR1B |= (1 << CS12) | (1 << CS10);
-
-    // Calculate compare value for 20ms
-    OCR1A = 15624;
-
-    // Enable compare match interrupt
-    TIMSK1 |= (1 << OCIE1A);
-
-    // Enable global interrupts
-    sei();
+    // TCCR0A |= (1 << WGM01);
+    //
+    // // Set prescaler to 1024
+    // TCCR0B |= (1 << CS01) | (1 << CS00);
+    //
+    // // Calculate compare value for 20ms
+    // OCR0A = 155;
+    //
+    // // Enable compare match interrupt
+    // TIMSK0 |= (1 << OCIE0A);
+    //
+    // // Enable global interrupts
+    // sei();
 }
 
 /*

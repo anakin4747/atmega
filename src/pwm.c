@@ -3,20 +3,21 @@
 #include "../include/uart.h"
 
 void setupPWM(void){
-    DDRD |= (1 << PD6);
+    DDRD |= (1 << PD3);
     // Set PB6 to output (OC0A)
     
-    OCR0A = 0;
+    OCR2A = 127;
     //OCR0A = 127;
     // Set a duty cycle of 0% in output control register 0A
 
-    TCCR0A |= (1 << COM0A1);
+    TCCR2A |= (1 << COM2A1);
     // Set to non-inverting PWM
 
-    TCCR0A |= (1 << WGM01) | (1 << WGM00);
+    TCCR2A |= (1 << WGM21) | (1 << WGM20);
     // Set WGM to Fast PWM mode 3
 
-    TCCR0B |= (1 << CS00);
+    TCCR2B |= (1 << CS20);
+    // No prescaling
 }
 
 void updatePWM(uint8_t dutyCycle){
@@ -24,7 +25,7 @@ void updatePWM(uint8_t dutyCycle){
         sendOverUART("Duty Cycle out of bounds", 0, 4);
         // Check if duty cycle is appropriate
     } else {
-        OCR0A = (256 * dutyCycle / 100) - 1;
+        OCR2A = (256 * dutyCycle / 100) - 1;
     }
 }
 
