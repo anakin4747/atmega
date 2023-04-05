@@ -37,7 +37,8 @@ int main(void){
             // Read all ADCs and print to UART
             // Measurements are all x100 to account for a lack of floats
 
-            mppt(inputVoltageX100, inputCurrentX100, battVoltageX100);
+            // mppt(inputVoltageX100, inputCurrentX100, battVoltageX100);
+            updatePWM(50);
 
         }
     }

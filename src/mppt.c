@@ -1,5 +1,10 @@
 #include "../include/mppt.h"
 #include "../include/pwm.h"
+#include "../include/uart.h"
+
+
+static uint8_t duty = 0;
+// Duty cycle
 
 
 void mppt(uint32_t inputVoltageX100, 
@@ -7,9 +12,6 @@ void mppt(uint32_t inputVoltageX100,
           uint32_t battVoltageX100){
     // Inputs are x100 to account for lack of floats
 
-    static uint8_t duty = 0;
-    // Duty cycle
-    // Since its static it should only be set to zero on the first call
 
     uint32_t inputPowerX10K;
 
@@ -22,44 +24,48 @@ void mppt(uint32_t inputVoltageX100,
 
     if(battVoltageX100 > CHARGED_BATT_VOLTAGE_X100){
         updatePWM(0);
-        // Lower PWM the voltage so the battery does not get charged anymore
-        //
-        // DOUBLE CHECK THAT THIS WILL WORK
-        //
-        // THIS IS UNTESTED
+        sendOverUART("Battery Charged\n", 0, 4);
         return; 
+        // Tested and should be working
     }
    
 
     if(inputPowerX10K >= lastPowerX10K){
         if(inputVoltageX100 >= lastVoltageX100){
             if(inputCurrentX100 >= lastCurrentX100){
-                duty += DELTA * duty;
+                duty += duty * DELTA;
+                sendOverUART("Duty Increased\n", 0, 4);
                 // d=d+delta*d
             } else {
-                duty -= DELTA * duty;
+                duty -= duty * DELTA;
+                sendOverUART("Duty Decreased\n", 0, 4);
                 // d=d-delta*d
             }
         } else {
             if(inputCurrentX100 >= lastCurrentX100){
-                duty += DELTA * duty;
+                duty += duty * DELTA;
+                sendOverUART("Duty Increased\n", 0, 4);
                 // d=d+delta*d
             } else {
-                duty -= DELTA * duty;
+                duty -= duty * DELTA;
+                sendOverUART("Duty Decreased\n", 0, 4);
                 // d=d-delta*d
             }
         }
     } else if(inputPowerX10K < lastPowerX10K){
         if(inputVoltageX100 >= lastVoltageX100){
             if(inputCurrentX100 >= lastCurrentX100){
-                duty -= 2 * DELTA * duty;
+                duty -= 2 * duty * DELTA;
+                sendOverUART("Duty Doubly Decreased\n", 0, 4);
                 // d=d-2*delta*d
             } else {
-                duty += 2 * DELTA * duty;
+                duty += 2 * duty * DELTA;
+                sendOverUART("Duty Doubly Increased\n", 0, 4);
                 // d=d+2*delta*d
             }
         } else {
-            duty -= 2 * DELTA * duty;
+            duty -= 2 * duty * DELTA;
+            sendOverUART("Duty Doubly Decreased\n", 0, 4);
             // d=d-2*delta*d
         }
     }

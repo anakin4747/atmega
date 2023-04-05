@@ -28,7 +28,7 @@ void setupTimer1(void){
     TCCR1B |= (1 << CS12) | (1 << CS10);
 
     // Calculate compare value for 20ms
-    OCR1A = 3905;
+    OCR1A = 15624;
 
     // Enable compare match interrupt
     TIMSK1 |= (1 << OCIE1A);
@@ -49,5 +49,9 @@ void setupTimer1(void){
  * OCRnx = (f_clk_IO * T_s / N) - 1
  * OCRnx = (16M * 250ms / 1024) - 1
  * OCRnx = 3905.25
+ *
+ * OCRnx = (f_clk_IO * T_s / N) - 1
+ * OCRnx = (16M * 1s / 1024) - 1
+ * OCRnx = 15624
  *
  */
