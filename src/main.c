@@ -21,7 +21,7 @@ int main(void){
     setupADC();
     setupPWM();
     setupUART();
-    setupTimer1();
+    setupTimer0();
     // Initialization
     
 

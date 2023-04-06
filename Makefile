@@ -40,7 +40,15 @@ flash-ICSP: $(HEX)
 	make clean
 
 fuse:
-	avrdude -p atmega328p -c stk500v1 -P /dev/ttyUSB0 -U lock:r:-:h -U lfuse:r:-:h -U hfuse:r:-:h -U efuse:r:-:h
+	avrdude -p atmega328p -c stk500v1 -P /dev/ttyUSB0 -b 19200 -U lfuse:w:0xFF:m -U hfuse:w:0xDE:m -U efuse:w:0xFD:m
+
+layout:
+	@echo "\n\t*\033[1m ICSP Header   UART	Arduino ISP\033[0m"
+	@echo "\t MISO | +5V  |  Blue	SCK MISO MOSI RST"
+	@echo "\t SCK  | MOSI |  Green	13  12   11   10"
+	@echo "\t RST  | GND  |  GND\n"
+
 
 -include $(OBJECTS:.o=.d)
+
 
