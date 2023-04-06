@@ -1,17 +1,15 @@
 #include "../include/timer.h"
-#include "../include/adc.h"
-#include "../include/uart.h"
 #include <avr/interrupt.h>
 
-static char timerInterrupt = 0;
+static int timerInterrupt = 0;
 
 // Timer1 Compare Interrupt Service Routine
-ISR(TIMER0_COMPA_vect){
-    timerInterrupt = 1;
+ISR(TIMER0_OVF_vect){
+    timerInterrupt++;
 }
 
 int interruptOccured(void){
-    if(timerInterrupt){
+    if(timerInterrupt > 100){
         timerInterrupt = 0;
         return 1;
     } else {
@@ -19,22 +17,19 @@ int interruptOccured(void){
     }
 }
 
-void setupTimer1(void){
+void setupTimer0(void){
 
-    // Set to CTC mode
-    // TCCR0A |= (1 << WGM01);
-    //
-    // // Set prescaler to 1024
-    // TCCR0B |= (1 << CS01) | (1 << CS00);
-    //
-    // // Calculate compare value for 20ms
-    // OCR0A = 155;
-    //
-    // // Enable compare match interrupt
-    // TIMSK0 |= (1 << OCIE0A);
-    //
-    // // Enable global interrupts
-    // sei();
+    TCNT0 = 100;
+
+    // Set prescaler to 1024
+    TCCR0B |= (1 << CS01) | (1 << CS00);
+
+
+    // Enable compare match interrupt
+    TIMSK0 |= (1 << TOIE0);
+
+    // Enable global interrupts
+    sei();
 }
 
 /*
