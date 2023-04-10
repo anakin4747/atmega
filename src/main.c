@@ -1,7 +1,6 @@
 #define F_CPU 16000000UL
 #include <stdint.h>
 #include <avr/io.h>
-#include <avr/interrupt.h>
 #include "../include/adc.h"
 #include "../include/mppt.h"
 #include "../include/pwm.h"

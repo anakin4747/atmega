@@ -1,5 +1,4 @@
 #include <avr/io.h>
-#include <avr/interrupt.h>
 #include "../include/pwm.h"
 
 void setupPWM(void){
@@ -15,24 +14,19 @@ void setupPWM(void){
     TCCR2B = (1 << WGM22) | (1 << CS20);
     // No prescaling
 
-
-}
-
-ISR(TIMER2_OVF_vect){
-    OCR2B = 127;
 }
 
 void updatePWM(uint8_t dutyCycle){
-    if(dutyCycle < 0 || dutyCycle > 100){
+    if(dutyCycle > 0 || dutyCycle < 100){
         // Check if duty cycle is appropriate
-    } else {
+
         OCR2B = (256 * dutyCycle / 100) - 1;
-    }
+        /* This is how to set the PWM duty cycle
+         * OCR2B = 256*D/100 - 1
+         * D = 50
+         * OCR2B = 127
+         *
+         */
+    } 
 }
 
-/*
- * OCR0A = 256*D/100 - 1
- * D = 50
- * OCR0A = 127
- *
- */

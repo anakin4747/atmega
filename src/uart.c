@@ -1,24 +1,26 @@
 #include "../include/uart.h"
 #include "../include/adc.h"
 #include <avr/io.h>
-#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 
 void setupUART(void){
-    // Setting Baud Rate
+
     UBRR0H = (BAUD_RATE >> 8);
     UBRR0L = (BAUD_RATE);
+    // Setting Baud Rate
 
-    // Set frame rate
     UCSR0C = 0x06;     
-    // Enable transmitter
+    // Set frame rate
+
     UCSR0B = (1 << TXEN0);
+    // Enable transmitter
 
 }
 
 void sendOverUART(const char *message, uint16_t adcRead, uint8_t channel){
     char data[255];
+    // This is a buffer why not make it look like it
 
     switch(channel){
         case CH0:
