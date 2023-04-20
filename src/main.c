@@ -25,7 +25,7 @@ int main(void){
     
 
     while(1){
-        while(interruptOccured()){
+        while(tickOccured()){
 
             PORTB ^= (1 << PORTB5);
             // Just for sign of life in arduino version
