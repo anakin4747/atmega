@@ -71,6 +71,7 @@ void mppt(uint32_t inputVoltageX100,
     }
 
     updatePWM(duty);
+    // updatePWM(5);
 
 
     lastPowerX10K = inputPowerX10K;
