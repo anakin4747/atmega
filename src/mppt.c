@@ -24,7 +24,7 @@ void mppt(uint32_t inputVoltageX100,
 
     if(battVoltageX100 > CHARGED_BATT_VOLTAGE_X100){
         updatePWM(0);
-        sendOverUART("Battery Charged\n", 0, 4);
+        sendOverUART("Battery Charged", 0, 5);
         return; 
         // Tested and should be working
     }
@@ -33,22 +33,24 @@ void mppt(uint32_t inputVoltageX100,
     if(inputPowerX10K >= lastPowerX10K){
         if(inputVoltageX100 >= lastVoltageX100){
             if(inputCurrentX100 >= lastCurrentX100){
+
                 duty += duty * DELTA;
-                sendOverUART("Duty Increased\n", 0, 4);
+                // duty += duty * DELTA;
+                sendOverUART("Duty Increased 1 Duty:", duty, 5);
                 // d=d+delta*d
             } else {
                 duty -= duty * DELTA;
-                sendOverUART("Duty Decreased\n", 0, 4);
+                sendOverUART("Duty Decreased 2 Duty:", duty, 5);
                 // d=d-delta*d
             }
         } else {
             if(inputCurrentX100 >= lastCurrentX100){
                 duty += duty * DELTA;
-                sendOverUART("Duty Increased\n", 0, 4);
+                sendOverUART("Duty Increased 3 Duty:", duty, 5);
                 // d=d+delta*d
             } else {
                 duty -= duty * DELTA;
-                sendOverUART("Duty Decreased\n", 0, 4);
+                sendOverUART("Duty Decreased 4 Duty:", duty, 5);
                 // d=d-delta*d
             }
         }
@@ -56,22 +58,21 @@ void mppt(uint32_t inputVoltageX100,
         if(inputVoltageX100 >= lastVoltageX100){
             if(inputCurrentX100 >= lastCurrentX100){
                 duty -= 2 * duty * DELTA;
-                sendOverUART("Duty Doubly Decreased\n", 0, 4);
+                sendOverUART("Duty Doubly Decreased 4 Duty:", duty, 5);
                 // d=d-2*delta*d
             } else {
                 duty += 2 * duty * DELTA;
-                sendOverUART("Duty Doubly Increased\n", 0, 4);
+                sendOverUART("Duty Doubly Increased 5 Duty:", duty, 5);
                 // d=d+2*delta*d
             }
         } else {
             duty -= 2 * duty * DELTA;
-            sendOverUART("Duty Doubly Decreased\n", 0, 4);
+            sendOverUART("Duty Doubly Decreased 6 Duty:", duty, 5);
             // d=d-2*delta*d
         }
     }
 
     updatePWM(duty);
-    // updatePWM(5);
 
 
     lastPowerX10K = inputPowerX10K;

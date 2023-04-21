@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 #define CHARGED_BATT_VOLTAGE_X100 1260
-#define DELTA 25 / 100
+#define DELTA 2 / 100
 
 void mppt(uint32_t inputVoltage, 
 	  uint32_t inputCurrent, 
