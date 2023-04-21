@@ -1,6 +1,7 @@
 #include "../include/adc.h"
 #include <avr/io.h>
 
+static int32_t lastCurrRead, secLastCurrRead;
 
 void setupADC(void){
     // Select ADC Prescalar to 128
@@ -41,7 +42,7 @@ int32_t adc_conversion(void){
 uint32_t adc_read(uint8_t channel){
     // Accepts the channel to perform the read of and handles conversions
     // appropriately
-    int32_t currentReading;
+    int32_t currentReading, avgCurrRead;
 
     switch(channel){
         case CH0:
@@ -54,11 +55,17 @@ uint32_t adc_read(uint8_t channel){
             ADMUX |= CH1;
 
             currentReading = ((adc_conversion() * 2500) - 1278750) / 1023;
-            if(currentReading < 0){
+            avgCurrRead = (currentReading + lastCurrRead + secLastCurrRead) / 3;
+
+            secLastCurrRead = lastCurrRead;
+            lastCurrRead = currentReading;
+
+            if(avgCurrRead < 0){
                 return 0;
             } else {
-                return currentReading;
+                return avgCurrRead;
             }
+
             break;
         case CH2:
             ADMUX = ADMUX & 0xF0;
