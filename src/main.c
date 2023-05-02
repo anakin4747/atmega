@@ -11,8 +11,6 @@
 int main(void){
 
     static uint32_t inputVoltageX100, inputCurrentX100, battVoltageX100;
-    inputVoltageX100 = inputCurrentX100 = battVoltageX100 = 0;
-    // Are these the default values we want?
 
     DDRB |= (1 << DDB5);
     // Sign of life LED
@@ -37,7 +35,7 @@ int main(void){
             // Measurements are all x100 to account for a lack of floats
 
             mppt(inputVoltageX100, inputCurrentX100, battVoltageX100);
-            // updatePWM(50);
+            // MPPT algorithm
 
         }
     }

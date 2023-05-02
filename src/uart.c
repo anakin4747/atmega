@@ -20,7 +20,6 @@ void setupUART(void){
 
 void sendOverUART(const char *message, uint16_t adcRead, uint8_t channel){
     char data[255];
-    // This is a buffer why not make it look like it
 
     switch(channel){
         case CH0:

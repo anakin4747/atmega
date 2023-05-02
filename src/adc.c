@@ -55,10 +55,11 @@ uint32_t adc_read(uint8_t channel){
             ADMUX |= CH1;
 
             currentReading = ((adc_conversion() * 2500) - 1278750) / 1023;
+            // Current reading converison
             avgCurrRead = (currentReading + lastCurrRead + secLastCurrRead) / 3;
-
             secLastCurrRead = lastCurrRead;
             lastCurrRead = currentReading;
+            // Moving average filter - could be improved with multiple calls to adc_converison() instead
 
             if(avgCurrRead < 0){
                 return 0;
