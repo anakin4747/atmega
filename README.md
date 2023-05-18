@@ -1,8 +1,8 @@
 # Fixed-Wing Solar-Powered Drone
 
-<div style="text-align: center;">
+<p align="center">
   <img src=".docs/Finished-Drone-Top-View.png" alt="Image">
-</div>
+</p>
 
 
 For my Capstone Final Project in Electrical Engineering at The University of Western Ontario, my team and I decided to make a solar-powered fixed-wing drone. 
@@ -11,14 +11,14 @@ This involved making a solar array and designing a Maximum Power Point Tracker (
 
 My contribution to the project was writing the software for the MPPT. This repo is the firmware of the MPPT.
 
-<div style="text-align: center;">
+<p align="center">
   <img src=".docs/MPPT-V2.jpeg" alt="Image">
-</div>
+</p>
 <p align="center">MPPT Version 2</p>
 
-<div style="text-align: center;">
+<p align="center">
   <img src=".docs/Drone-Internals.jpeg" alt="Image">
-</div>
+</p>
 <p align="center">MPPT Installed in Drone</p>
 
 
@@ -36,9 +36,9 @@ I programmed all the code for this device in the best code editor around, VIM.
 
 The microcontroller I used was the ATmega328P. 
 
-<div style="text-align: center;">
+<p align="center">
   <img src=".docs/ATmega328P.png" alt="Image">
-</div>
+</p>
 <p align="center">ATmega328P Installed on MPPT</p>
 
 This is also the microcontroller that is used on the Arduino. I decided to use this microcontroller because I could write C on the ATmega on an Arduino I already had (avoiding all Arduino software). This allowed me to progress the software design before the hardware design was complete.
@@ -50,16 +50,16 @@ The inputs are input voltage (from the solar array), input current (from the sol
 
 To ensure periodic operation of these tasks, an interrupt occurs regularly to trigger the beginning of these tasks.
 
-<div style="text-align: center;">
+<p align="center">
   <img src=".docs/Control-Flow.png" alt="Image">
-</div>
+</p>
 <p align="center">Control Flow Diagram</p>
 
-All of these individual components can be found in aptly named files in the src folder with their associated headers in the include folder.
+All of these inpidual components can be found in aptly named files in the src folder with their associated headers in the include folder.
 
-<div style="text-align: center;">
+<p align="center">
   <img src=".docs/files.png" alt="Image">
-</div>
+</p>
 <p align="center">File Structure</p>
 
 ### Build system
@@ -70,16 +70,16 @@ There are several targets in the Makefile for a few setups. Some of them are use
 
 Below is the setup for programming the MPPT device over ICSP.
 
-<div style="text-align: center;">
+<p align="center">
   <img src=".docs/ICSP-MPPT2.jpeg" alt="Image">
-</div>
+</p>
 <p align="center">ICSP Programming Setup</p>
 
 For debugging purposes we had 2 pins for UART communication.
 
-<div style="text-align: center;">
+<p align="center">
   <img src=".docs/UART-USB-MPPT.jpeg" alt="Image">
-</div>
+</p>
 <p align="center">UART to USB Debugging Setup</p>
 
 I was able to view the information sent out of the ATmega through UART by using a UART to USB converter. I could then use a tool to view the serial input on my laptop. I mainly used **screen**, a command line tool, to view the stream but I also wrote a Python program which monitored, logged, and plotted the data from this stream in real-time. Check it out at https://github.com/anakin4747/MPPT-Display
