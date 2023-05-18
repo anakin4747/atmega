@@ -55,7 +55,7 @@ To ensure periodic operation of these tasks, an interrupt occurs regularly to tr
 </p>
 <p align="center">Control Flow Diagram</p>
 
-All of these inpidual components can be found in aptly named files in the src folder with their associated headers in the include folder.
+All of these individual components can be found in aptly named files in the src folder with their associated headers in the include folder.
 
 <p align="center">
   <img src=".docs/files.png" alt="Image">
